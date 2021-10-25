@@ -15,7 +15,7 @@ jobs:
       run: |
        git clone https://github.com/ci-recovery-build/alp.git
        cd alp
-       docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t alpine-qbit
+       docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile --tag alpine-qbit/alpine-qbit:latest
        docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
-       docker push ${{ secrets.user }}/alpine-qbit:latest
+       docker push alpine-qbit/alpine-qbit:latest
        
