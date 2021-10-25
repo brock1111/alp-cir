@@ -4,11 +4,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
   
-env:
-  # Change these values if you have forked it for your own works
-  GitHubMail: "81898439+tazz555@users.noreply.github.com"
-  GitHubName: "tazz555" 
-       
 defaults:
   run:
     shell: bash
@@ -22,6 +17,5 @@ jobs:
        wget https://raw.githubusercontent.com/ci-recovery-build/alp/8da7f0285ec13772777309e20f0bc452236293d5/Dockerfile
        docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t alpine-qbit
        docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
-       docker tag alpine-qbit:latest alpine-qbit:latest
-       docker push alpine-qbit:latest
+       docker push ${{ secrets.user }}/alpine-qbit:latest
        
