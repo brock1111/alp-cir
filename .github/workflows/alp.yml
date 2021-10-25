@@ -1,0 +1,25 @@
+name: Ubuntu
+on: 
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      auth:
+         description: 'GRDP Authorization Code'
+         required: true
+
+  
+env:
+  # Change these values if you have forked it for your own works
+  GitHubMail: "81898439+tazz555@users.noreply.github.com"
+  GitHubName: "tazz555" 
+       
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Creating User to Login
+      run: docker build --pull -t alp_qb .
