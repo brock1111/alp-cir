@@ -23,6 +23,14 @@ RUN apk add --no-cache -t .build-deps \
         openssl-dev
 ARG LIBTORRENT_VERSION=1.2.14
 ARG QBITTORRENT_VERSION=4.3.8
+ENV MEGA_SDK_VERSION="3.9.7"
+RUN git clone https://github.com/meganz/sdk.git --depth=1 -b v$MEGA_SDK_VERSION ~/home/sdk \
+    && cd ~/home/sdk && rm -rf .git \
+    && autoupdate -fIv && ./autogen.sh \
+    && ./configure --disable-silent-rules --enable-python --with-sodium --disable-examples \
+    && make -j$(nproc --all) \
+    && cd bindings/python/ && python3 setup.py bdist_wheel \
+    && cd dist/ && pip3 install wheel && pip3 install --no-cache-dir megasdk-$MEGA_SDK_VERSION-*.whl 
 
 RUN curl -L -o /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz "https://github.com/arvidn/libtorrent/archive/v$LIBTORRENT_VERSION.tar.gz" && \
     tar -xzv -C /tmp -f /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz && \
@@ -59,14 +67,6 @@ RUN set -x && \
     apk del --purge .build-deps && \
     rm -rf /tmp/*
 
-ENV MEGA_SDK_VERSION="3.9.7"
-RUN git clone https://github.com/meganz/sdk.git --depth=1 -b v$MEGA_SDK_VERSION ~/home/sdk \
-    && cd ~/home/sdk && rm -rf .git \
-    && autoupdate -fIv && ./autogen.sh \
-    && ./configure --disable-silent-rules --enable-python --with-sodium --disable-examples \
-    && make -j$(nproc --all) \
-    && cd bindings/python/ && python3 setup.py bdist_wheel \
-    && cd dist/ && pip3 install wheel && pip3 install --no-cache-dir megasdk-$MEGA_SDK_VERSION-*.whl 
 
 RUN qbittorrent-nox -v
 
