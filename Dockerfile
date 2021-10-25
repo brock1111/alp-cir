@@ -24,6 +24,11 @@ RUN apk add --no-cache -t .build-deps \
 ARG LIBTORRENT_VERSION=1.2.14
 ARG QBITTORRENT_VERSION=4.3.8
 ENV MEGA_SDK_VERSION="3.9.7"
+RUN rm -rf /var/cache/apk/*
+
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt && rm -f requirements.txt
+
 RUN git clone https://github.com/meganz/sdk.git --depth=1 -b v$MEGA_SDK_VERSION ~/home/sdk \
     && cd ~/home/sdk && rm -rf .git \
     && autoupdate -fIv && ./autogen.sh \
@@ -70,7 +75,3 @@ RUN set -x && \
 
 RUN qbittorrent-nox -v
 
-RUN rm -rf /var/cache/apk/*
-
-COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt && rm -f requirements.txt
