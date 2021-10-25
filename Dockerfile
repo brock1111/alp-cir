@@ -1,9 +1,8 @@
 FROM alpine:3.14
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update
-RUN apk add autoconf automake g++ gcc git libtool m4 make swig c-ares-dev c-ares
-RUN apk add autoconf automake wget jq pv python3 unzip p7zip py3-pip aria2 xz neofetch  mediainfo c-ares-dev crypto++-dev curl curl-dev cvs file  freeimage freeimage-dev g++ gcc git  libc-dev libffi-dev libressl-dev  libressl3.3-libcrypto libsodium libsodium-dev libuv-dev  make openssl  openssl-dev  pcre-dev  readline-dev  sqlite-dev  zlib-dev
-RUN apk add autoconf automake build-base cmake curl git libtool linux-headers perl pkgconf python3 python3-dev re2c tar
+RUN apk add --no-cache autoconf automake g++ gcc git libtool m4 make swig c-ares-dev c-ares
+RUN apk add --no-cache wget jq pv python3 unzip p7zip py3-pip aria2 xz neofetch  mediainfo c-ares-dev crypto++-dev curl curl-dev cvs file  freeimage freeimage-dev g++ gcc git  libc-dev libffi-dev libressl-dev  libressl3.3-libcrypto libsodium git libtool linux-headers perl pkgconf python3 python3-dev re2c tar libsodium-dev libuv-dev  make openssl  openssl-dev  pcre-dev  readline-dev  sqlite-dev  build-base cmake curl  zlib-dev
 RUN apk add --no-cache \
         boost-system \
         boost-thread \
@@ -33,13 +32,13 @@ RUN curl -L -o /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz "https://github.com/ar
     cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_LIBDIR=lib && \
     make && \
     make install && \
-    # Clean-up
+    
     cd / && \
     apk del --purge .build-deps && \
     rm -rf /tmp/*
 
 RUN set -x && \
-    # Install build dependencies
+    
     apk add --no-cache -t .build-deps \
         boost-dev \
         curl \
@@ -48,14 +47,27 @@ RUN set -x && \
         openssl-dev \
         qt5-qttools-dev \
     && \
-    # Build qBittorrent from source code
+    
     curl -L -o /tmp/qBittorrent-$QBITTORRENT_VERSION.tgz "https://github.com/qbittorrent/qBittorrent/archive/release-$QBITTORRENT_VERSION.tar.gz" && \
     tar -xzv -C /tmp -f /tmp/qBittorrent-$QBITTORRENT_VERSION.tgz && \
     cd /tmp/qBittorrent-release-$QBITTORRENT_VERSION && \
-    # Compile
+    
     PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure --disable-gui --disable-stacktrace && \
     make && \
-    make install
+    make install && \
+    cd / && \
+    apk del --purge .build-deps && \
+    rm -rf /tmp/*
 
+ENV MEGA_SDK_VERSION="3.9.7"
+RUN git clone https://github.com/meganz/sdk.git --depth=1 -b v$MEGA_SDK_VERSION ~/home/sdk \
+    && cd ~/home/sdk && rm -rf .git \
+    && autoupdate -fIv && ./autogen.sh \
+    && ./configure --disable-silent-rules --enable-python --with-sodium --disable-examples \
+    && make -j$(nproc --all) \
+    && cd bindings/python/ && python3 setup.py bdist_wheel \
+    && cd dist/ && pip3 install --no-cache-dir megasdk-$MEGA_SDK_VERSION-*.whl 
 
 RUN qbittorrent-nox -v
+
+
