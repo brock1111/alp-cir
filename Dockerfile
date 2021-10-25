@@ -22,7 +22,7 @@ RUN apk add --no-cache -t .build-deps \
         make \
         qt5-qttools-dev \
         openssl-dev
-ARG LIBTORRENT_VERSION=1.2.12
+ARG LIBTORRENT_VERSION=1.2.14
 ARG QBITTORRENT_VERSION=4.3.8
 
 RUN curl -L -o /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz "https://github.com/arvidn/libtorrent/archive/v$LIBTORRENT_VERSION.tar.gz" && \
