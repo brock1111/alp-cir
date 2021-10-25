@@ -22,5 +22,6 @@ jobs:
        wget https://raw.githubusercontent.com/ci-recovery-build/alp/8da7f0285ec13772777309e20f0bc452236293d5/Dockerfile
        docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t alpine-qbit
        docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
-       docker push alpine-qbit
+       docker tag alpine-qbit:latest alpine-qbit:latest
+       docker push alpine-qbit:latest
        
