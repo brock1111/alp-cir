@@ -2,7 +2,7 @@ FROM alpine:3.14
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
 RUN apk update
 RUN apk add --no-cache autoconf automake g++ gcc git libtool m4 make swig c-ares-dev c-ares
-RUN apk add --no-cache wget jq pv python3 py3-wheel unzip p7zip py3-pip aria2 xz neofetch  mediainfo c-ares-dev crypto++-dev curl curl-dev cvs file  freeimage freeimage-dev g++ gcc git  libc-dev libffi-dev libressl-dev  libressl3.3-libcrypto libsodium git libtool linux-headers perl pkgconf python3 python3-dev re2c tar libsodium-dev libuv-dev  make openssl  openssl-dev  pcre-dev  readline-dev  sqlite-dev  build-base cmake curl  zlib-dev
+RUN apk add --no-cache wget jq pv python3 py3-wheel unzip p7zip py3-pip aria2 xz neofetch  mediainfo ffmpeg c-ares-dev crypto++-dev curl curl-dev cvs file  freeimage freeimage-dev g++ gcc git  libc-dev libffi-dev libressl-dev  libressl3.3-libcrypto libsodium git libtool linux-headers perl pkgconf python3 python3-dev re2c tar libsodium-dev libuv-dev  make openssl  openssl-dev  pcre-dev  readline-dev  sqlite-dev  build-base cmake curl  zlib-dev
 RUN apk add --no-cache \
         boost-system \
         boost-thread \
