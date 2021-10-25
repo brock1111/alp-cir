@@ -22,4 +22,5 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - name: Creating User to Login
-      run: docker build --pull -t alp_qb .
+      run: docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile -t bot
+       
