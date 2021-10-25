@@ -70,4 +70,7 @@ RUN set -x && \
 
 RUN qbittorrent-nox -v
 
+RUN rm -rf /var/cache/apk/*
 
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt && rm -f requirements.txt
