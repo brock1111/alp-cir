@@ -1,4 +1,4 @@
-name: Ubuntu
+name: Docker
 on: 
   push:
     branches: [ main ]
@@ -16,7 +16,7 @@ jobs:
        docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
        git clone https://github.com/ci-recovery-build/alp.git
        cd alp
-       docker build . --pull --file Dockerfile --tag alpine-qbit:1.0.0
+       docker build . --pull --file Dockerfile --tag ${{ secrets.user }}/test:0.4
        docker images
-       sudo docker push ${{ secrets.user }}/alpine-qbit:1.0.0
+       sudo docker push ${{ secrets.user }}/test:0.4
        
