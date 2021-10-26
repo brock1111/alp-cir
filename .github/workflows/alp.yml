@@ -13,9 +13,11 @@ jobs:
     steps:
     - name: Creating User to Login
       run: |
+       docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
        git clone https://github.com/ci-recovery-build/alp.git
        cd alp
-       docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile --tag alpine-qbit/alpine-qbit:latest
-       docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
-       docker push alpine-qbit/alpine-qbit:latest
+       docker build . --rm --force-rm --compress --no-cache=true --pull --file Dockerfile 
+       docker images
+       docker tag alpine:3.14 ${{ secrets.user }}/alpine-qbit:1.0
+       sudo docker push ${{ secrets.user }}/alpine-qbit:1.0
        
