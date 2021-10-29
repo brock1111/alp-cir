@@ -18,5 +18,5 @@ jobs:
        cd alp
        docker build . --pull --file Dockerfile --tag ${{ secrets.user }}/test:0.4
        docker images
-       sudo docker push ${{ secrets.user }}/test:0.4
+       sudo docker push ${{ secrets.user }}/test:0.4-g
        
