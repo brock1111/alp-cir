@@ -29,6 +29,28 @@ RUN rm -rf /var/cache/apk/*
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt && rm -f requirements.txt
 
+RUN set -x && \
+    
+    apk add --no-cache -t .build-deps \
+        boost-dev \
+        curl \
+        g++ \
+        make \
+        openssl-dev \
+        qt5-qttools-dev \
+    && \
+    
+    curl -L -o /tmp/qBittorrent-$QBITTORRENT_VERSION.tgz "https://github.com/qbittorrent/qBittorrent/archive/release-$QBITTORRENT_VERSION.tar.gz" && \
+    tar -xzv -C /tmp -f /tmp/qBittorrent-$QBITTORRENT_VERSION.tgz && \
+    cd /tmp/qBittorrent-release-$QBITTORRENT_VERSION && \
+    
+    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure --disable-stacktrace && \
+    make && \
+    make install && \
+    cd / && \
+    apk del --purge .build-deps && \
+    rm -rf /tmp/*
+
 RUN git clone https://github.com/meganz/sdk.git --depth=1 -b v$MEGA_SDK_VERSION ~/home/sdk \
     && cd ~/home/sdk && rm -rf .git \
     && autoupdate -fIv && ./autogen.sh \
@@ -50,27 +72,7 @@ RUN curl -L -o /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz "https://github.com/ar
     apk del --purge .build-deps && \
     rm -rf /tmp/*
 
-RUN set -x && \
-    
-    apk add --no-cache -t .build-deps \
-        boost-dev \
-        curl \
-        g++ \
-        make \
-        openssl-dev \
-        qt5-qttools-dev \
-    && \
-    
-    curl -L -o /tmp/qBittorrent-$QBITTORRENT_VERSION.tgz "https://github.com/qbittorrent/qBittorrent/archive/release-$QBITTORRENT_VERSION.tar.gz" && \
-    tar -xzv -C /tmp -f /tmp/qBittorrent-$QBITTORRENT_VERSION.tgz && \
-    cd /tmp/qBittorrent-release-$QBITTORRENT_VERSION && \
-    
-    PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure --disable-gui --disable-stacktrace && \
-    make && \
-    make install && \
-    cd / && \
-    apk del --purge .build-deps && \
-    rm -rf /tmp/*
+
 
 RUN apk del --purge g++ gcc libtool m4 make autoconf cmake automake
 RUN qbittorrent-nox -v
