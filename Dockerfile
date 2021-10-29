@@ -29,6 +29,19 @@ RUN rm -rf /var/cache/apk/*
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt && rm -f requirements.txt
 
+RUN curl -L -o /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz "https://github.com/arvidn/libtorrent/archive/v$LIBTORRENT_VERSION.tar.gz" && \
+    tar -xzv -C /tmp -f /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz && \
+    cd /tmp/libtorrent-$LIBTORRENT_VERSION && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_LIBDIR=lib && \
+    make && \
+    make install && \
+    
+    cd / && \
+    apk del --purge .build-deps && \
+    rm -rf /tmp/*
+
 RUN set -x && \
     
     apk add --no-cache -t .build-deps \
@@ -59,19 +72,6 @@ RUN git clone https://github.com/meganz/sdk.git --depth=1 -b v$MEGA_SDK_VERSION 
     && make -j$(nproc --all) \
     && cd bindings/python/ && python3 setup.py bdist_wheel \
     && cd dist/ && pip3 install wheel && pip3 install --no-cache-dir megasdk-$MEGA_SDK_VERSION-*.whl 
-
-RUN curl -L -o /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz "https://github.com/arvidn/libtorrent/archive/v$LIBTORRENT_VERSION.tar.gz" && \
-    tar -xzv -C /tmp -f /tmp/libtorrent-$LIBTORRENT_VERSION.tar.gz && \
-    cd /tmp/libtorrent-$LIBTORRENT_VERSION && \
-    mkdir build && \
-    cd build && \
-    cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_INSTALL_LIBDIR=lib && \
-    make && \
-    make install && \
-    
-    cd / && \
-    apk del --purge .build-deps && \
-    rm -rf /tmp/*
 
 
 
