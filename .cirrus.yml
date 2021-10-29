@@ -1,0 +1,7 @@
+docker_builder:
+  env:
+    DOCKER_USERNAME: ENCRYPTED[]
+    DOCKER_PASSWORD: ENCRYPTED[]
+  build_script: docker build --tag $DOCKER_USERNAME/test:0.5-g .
+  login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+  push_script: docker push $DOCKER_USERNAME/test:0.5-g
