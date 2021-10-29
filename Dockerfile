@@ -76,5 +76,5 @@ RUN git clone https://github.com/meganz/sdk.git --depth=1 -b v$MEGA_SDK_VERSION 
 
 
 RUN apk del --purge g++ gcc libtool m4 make autoconf cmake automake
-RUN qbittorrent-nox -v
+
 
