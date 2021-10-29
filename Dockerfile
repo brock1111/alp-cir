@@ -37,6 +37,7 @@ RUN set -x && \
         g++ \
         make \
         openssl-dev \
+        qt5-qtsvg-dev \
         qt5-qttools-dev \
     && \
     
