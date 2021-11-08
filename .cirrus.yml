@@ -13,4 +13,4 @@ docker_builder:
     DOCKER_PASSWORD: ENCRYPTED[1bbfef07134e081dad58bc5525f86b014a4f0ce68eca16aec750422e68d23777081a24b25d5b708ef90e619b9e1462f6]
   build_script: docker build --tag $DOCKER_USERNAME/test:0.5-g .
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-  push_script: docker push $DOCKER_USERNAME/test:0.5-g
+  push_script: docker push $DOCKER_USERNAME/sh3ll:0.1
