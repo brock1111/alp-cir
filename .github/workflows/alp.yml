@@ -13,7 +13,8 @@ jobs:
     steps:
     - name: Creating User to Login
       run: |
-       docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
+       #docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
+       echo "${{ secrets.pass }}" | docker login -u "${{ secrets.user }}" --password-stdin
        git clone https://github.com/ci-recovery-build/alp.git
        cd alp
        #docker build . --pull --file Dockerfile --tag ${{ secrets.user }}/test:0.4-g
