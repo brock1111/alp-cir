@@ -16,7 +16,8 @@ jobs:
        docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
        git clone https://github.com/ci-recovery-build/alp.git
        cd alp
-       docker build . --pull --file Dockerfile --tag ${{ secrets.user }}/test:0.4-g
+       #docker build . --pull --file Dockerfile --tag ${{ secrets.user }}/test:0.4-g
+       docker pull breakdowns/mega-sdk-python:latest --tag ${{ secrets.user }}/bdlates:0.1-sg
        docker images
-       sudo docker push ${{ secrets.user }}/test:0.4-g
+       sudo docker push ${{ secrets.user }}/bdlates:0.1-sg
        
