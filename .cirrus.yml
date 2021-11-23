@@ -10,7 +10,12 @@ docker_builder:
   timeout_in: 120m
   env:
     DOCKER_USERNAME: ENCRYPTED[5f0d2e2398a0801d5e2ac3f5143c0ca930b798d57b5bcf6a9ea1eb19c32c1038cc93c0e8d0f99cd00dd55455714607a0]
+    src_repo: ENCRYPTED[5c89fca24c9c8e5d656d8ba7a095af9cb32cf2b853fd9bf882f1cc16159b0e6bc0ea27c6e5f4332e4ffb6c067c7b4333]
+    dest_repo: ENCRYPTED[ca676f647c5937fad3147e0c192dcba4df918973e0b13fccad1b9866496887e0c4788a5dbecfdab1e6497faeeb22f0e1]
     DOCKER_PASSWORD: ENCRYPTED[1bbfef07134e081dad58bc5525f86b014a4f0ce68eca16aec750422e68d23777081a24b25d5b708ef90e619b9e1462f6]
-  build_script: docker build --tag $DOCKER_USERNAME/sh3ll:0.1 .
+  build_script: |
+           docker pull $src_repo
+           docker images
+           docker tag $src_repo $dest_repo
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-  push_script: docker push $DOCKER_USERNAME/sh3ll:0.1
+  push_script: docker push $DOCKER_USERNAME/$dest_repo
