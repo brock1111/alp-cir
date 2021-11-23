@@ -16,6 +16,7 @@ docker_builder:
   build_script: |
            docker pull $src_repo
            docker images
-           docker tag $src_repo $dest_repo
+           docker tag $src_repo $DOCKER_USERNAME/$dest_repo
+           docker images
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   push_script: docker push $DOCKER_USERNAME/$dest_repo
