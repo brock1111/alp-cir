@@ -15,13 +15,13 @@ docker_builder:
     db_src_repo: ENCRYPTED[929d6b41af66457ded33d9be16793df8c7797474ee7d54f5ea0d5504d993b1e814d145864dd30692ffd79e1632eda011]
     db_dest_repo: ENCRYPTED[ee2970798d570424734c817a2eef2a53c2b14843be9970f6be7606a7ae658cba9a4d535199500b8af47d8e6919b3b2d3]
     DOCKER_PASSWORD: ENCRYPTED[1bbfef07134e081dad58bc5525f86b014a4f0ce68eca16aec750422e68d23777081a24b25d5b708ef90e619b9e1462f6]
-  yt_build: |
+  build_script: |
            docker pull $yt_src_repo
            docker tag $yt_src_repo $DOCKER_USERNAME/$yt_dest_repo
-  db_build: |
            docker pull $db_src_repo
-           docker tag  $db_src_repo $DOCKER_USERNAME/$db_dest_repo
+           docker tag $db_src_repo $DOCKER_USERNAME/$db_dest_repo
   
-  login: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-  yt_push: docker push $DOCKER_USERNAME/$yt_dest_repo
-  db_push: docker push $DOCKER_USERNAME/$db_dest_repo
+  login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+  push_script: |
+           docker push $DOCKER_USERNAME/$yt_dest_repo
+           docker push $DOCKER_USERNAME/$db_dest_repo
