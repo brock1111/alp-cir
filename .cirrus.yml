@@ -10,13 +10,19 @@ docker_builder:
   timeout_in: 120m
   env:
     DOCKER_USERNAME: ENCRYPTED[5f0d2e2398a0801d5e2ac3f5143c0ca930b798d57b5bcf6a9ea1eb19c32c1038cc93c0e8d0f99cd00dd55455714607a0]
-    src_repo: ENCRYPTED[5c89fca24c9c8e5d656d8ba7a095af9cb32cf2b853fd9bf882f1cc16159b0e6bc0ea27c6e5f4332e4ffb6c067c7b4333]
-    dest_repo: ENCRYPTED[ca676f647c5937fad3147e0c192dcba4df918973e0b13fccad1b9866496887e0c4788a5dbecfdab1e6497faeeb22f0e1]
+    yt_src_repo: ENCRYPTED[5c89fca24c9c8e5d656d8ba7a095af9cb32cf2b853fd9bf882f1cc16159b0e6bc0ea27c6e5f4332e4ffb6c067c7b4333]
+    yt_dest_repo: ENCRYPTED[ca676f647c5937fad3147e0c192dcba4df918973e0b13fccad1b9866496887e0c4788a5dbecfdab1e6497faeeb22f0e1]
+    db_src_repo: ENCRYPTED[929d6b41af66457ded33d9be16793df8c7797474ee7d54f5ea0d5504d993b1e814d145864dd30692ffd79e1632eda011]
+    db_dest_repo: ENCRYPTED[9004c48ce26c913e0f42c602099628af4f72a50d388950776d00a30be384867d3d5112a71f0226cb80229784bdaecc91]
     DOCKER_PASSWORD: ENCRYPTED[1bbfef07134e081dad58bc5525f86b014a4f0ce68eca16aec750422e68d23777081a24b25d5b708ef90e619b9e1462f6]
-  build_script: |
-           docker pull $src_repo
-           docker images
-           docker tag $src_repo $DOCKER_USERNAME/$dest_repo
-           docker images
+  yt_build_script: |
+           docker pull $yt_src_repo
+           docker tag $yt_src_repo $DOCKER_USERNAME/$yt_dest_repo
+  db_build_script: |
+           docker pull $db_src_repo
+           docker tag  $db_src_repo $DOCKER_USERNAME/$db_dest_repo
+  
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-  push_script: docker push $DOCKER_USERNAME/$dest_repo
+  push_script: |
+           docker push $DOCKER_USERNAME/$yt_dest_repo
+           docker push $DOCKER_USERNAME/$bd_dest_repo
