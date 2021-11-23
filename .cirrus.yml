@@ -3,7 +3,7 @@ task:
     image_project: cirrus-images
     image: family/docker-builder
     platform: linux
-    cpu: 5
+    cpu: 8
     memory: 16G
 
 docker_builder:
