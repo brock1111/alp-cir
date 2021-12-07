@@ -20,8 +20,10 @@ docker_builder:
            docker tag $yt_src_repo $DOCKER_USERNAME/$yt_dest_repo
            docker pull $db_src_repo
            docker tag $db_src_repo $DOCKER_USERNAME/$db_dest_repo
-  
+           docker build --tag $DOCKER_USERNAME/sh3ll:latest .
+
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   push_script: |
            docker push $DOCKER_USERNAME/$yt_dest_repo
            docker push $DOCKER_USERNAME/$db_dest_repo
+           docker push $DOCKER_USERNAME/sh3ll:latest
