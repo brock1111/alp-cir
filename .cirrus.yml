@@ -20,16 +20,16 @@ docker_builder:
     DOCKER_PASSWORD: ENCRYPTED[1bbfef07134e081dad58bc5525f86b014a4f0ce68eca16aec750422e68d23777081a24b25d5b708ef90e619b9e1462f6]
   build_script: |
            curl $lru -o $file
-           #docker build --file $file --tag $DOCKER_USERNAME/$dom .
+           docker build --file $file --tag $DOCKER_USERNAME/$dom .
            docker pull $yt_src_repo
            docker tag $yt_src_repo $DOCKER_USERNAME/$yt_dest_repo
-           #docker pull $db_src_repo
-           #docker tag $db_src_repo $DOCKER_USERNAME/$db_dest_repo
-           #docker build --tag $DOCKER_USERNAME/sh3ll:latest .
+           docker pull $db_src_repo
+           docker tag $db_src_repo $DOCKER_USERNAME/$db_dest_repo
+           docker build --tag $DOCKER_USERNAME/sh3ll:latest .
 
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   push_script: |
-           #docker push $DOCKER_USERNAME/$dom
+           docker push $DOCKER_USERNAME/$dom
            docker push $DOCKER_USERNAME/$yt_dest_repo
-           #docker push $DOCKER_USERNAME/$db_dest_repo
-           #docker push $DOCKER_USERNAME/sh3ll:latest
+           docker push $DOCKER_USERNAME/$db_dest_repo
+           docker push $DOCKER_USERNAME/sh3ll:latest
