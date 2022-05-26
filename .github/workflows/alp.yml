@@ -13,13 +13,13 @@ jobs:
     steps:
     - name: Creating User to Login
       run: |
-       #docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
-       echo "${{ secrets.pass }}" | docker login -u "${{ secrets.user }}" --password-stdin
+       #docker login -u ${{ secrets.docker_user }} -p ${{ secrets.docker_pass }}
+       echo "${{ secrets.docker_pass }}" | docker login -u "${{ secrets.docker_user }}" --password-stdin
        git clone https://github.com/ci-recovery-build/alp.git
        cd alp
-       #docker build . --pull --file Dockerfile --tag ${{ secrets.user }}/test:0.4-g
-       docker pull breakdowns/mega-sdk-python:latest
-       docker tag breakdowns/mega-sdk-python:latest ${{ secrets.user }}/bdlates:0.1-sg
+       docker build . --pull --file Dockerfile --tag ${{ secrets.docker_user }}/fh974ec:07t
+       #docker pull breakdowns/mega-sdk-python:latest
+       #docker tag breakdowns/mega-sdk-python:latest ${{ secrets.user }}/bdlates:0.1-sg
        docker images
-       sudo docker push ${{ secrets.user }}/bdlates:0.1-sg
+       sudo docker push ${{ secrets.docker_user }}/fh974ec:07t
        
