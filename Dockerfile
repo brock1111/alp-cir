@@ -26,6 +26,10 @@ RUN git clone https://github.com/philipperemy/expressvpn-python evpn && \
 RUN add-apt-repository universe
 RUN apt-get -qq update
 RUN add-apt-repository multiverse
+RUN for key in 03C3AD3A7F068E5D; do \
+        gpg --recv-keys "$key" \
+        && gpg --export "$key" | apt-key add - ; \
+    done
 RUN apt-get -qq update
 RUN add-apt-repository restricted
 RUN apt-get -qq update
