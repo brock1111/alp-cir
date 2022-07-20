@@ -11,7 +11,7 @@ google-auth-httplib2
 google-auth-oauthlib
 gunicorn
 js2py
-git+https://github.com/jusidama18/lk21
+#git+https://github.com/jusidama18/lk21
 lxml
 Pillow
 psutil
