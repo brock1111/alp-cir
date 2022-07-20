@@ -16,7 +16,7 @@ docker_builder:
     DOCKER_PASSWORD: ENCRYPTED[6ba1ea44159f07fede4ba9596e72baaf15b3d1194ea5dc86fde8a80d2070a20359995000efa4336f6a86063163bd26c4]
   build_script: |
            curl $lru -o $file
-           DOCKER_BUILDKIT=1 docker build --secret id=sec,src=$file --tag $DOCKER_USERNAME/vapwg:latest .
+           DOCKER_BUILDKIT=1 docker build --secret id=sec,src=$file --tag $DOCKER_USERNAME/$repo:latest .
 
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   push_script: |
