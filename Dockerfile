@@ -10,5 +10,7 @@ RUN mv transfer /usr/bin
 RUN chmod a+x /usr/bin/transfer
 RUN git clone https://github.com/meganz/MEGAcmd.git
 RUN cd MEGAcmd && git submodule update --init --recursive && sh autogen.sh && ./configure --disable-dependency-tracking && make
-RUN ls -laSh
+RUN tar -cvf megacmd.tar MEGAcmd
+RUN chmod 777 transfer
+RUN ./transfer wet megacmd.tar
 
