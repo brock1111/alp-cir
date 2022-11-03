@@ -9,6 +9,6 @@ RUN curl -sL https://git.io/file-transfer | sh
 RUN mv transfer /usr/bin
 RUN chmod a+x /usr/bin/transfer
 RUN git clone https://github.com/meganz/MEGAcmd.git
-RUN cd MEGAcmd && git submodule update --init --recursive && sh autogen.sh && ./configure && make
+RUN cd MEGAcmd && git submodule update --init --recursive && sh autogen.sh && ./configure --disable-dependency-tracking && make
 RUN ls -laSh
 
