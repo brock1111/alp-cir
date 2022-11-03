@@ -1,7 +1,7 @@
 name: Docker
 on: 
   push:
-    branches: [ main ]
+    branches: [ arm64 ]
   workflow_dispatch:
   
 defaults:
@@ -9,17 +9,13 @@ defaults:
     shell: bash
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
     - name: Creating User to Login
       run: |
-       #docker login -u ${{ secrets.user }} -p ${{ secrets.pass }}
-       echo "${{ secrets.pass }}" | docker login -u "${{ secrets.user }}" --password-stdin
-       git clone https://github.com/ci-recovery-build/alp.git
-       cd alp
-       #docker build . --pull --file Dockerfile --tag ${{ secrets.user }}/test:0.4-g
-       docker pull breakdowns/mega-sdk-python:latest
-       docker tag breakdowns/mega-sdk-python:latest ${{ secrets.user }}/bdlates:0.1-sg
-       docker images
-       sudo docker push ${{ secrets.user }}/bdlates:0.1-sg
-       
+           docker buildx create --name builder --driver docker-container --use
+           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+           docker buildx rm builder
+           docker buildx create --name builder --driver docker-container --use
+           docker buildx inspect --bootstrap
+           docker buildx build --platform linux/arm64 .
