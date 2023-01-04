@@ -16,5 +16,5 @@ RUN git clone https://github.com/gpac/gpac.git
 RUN cd gpac && ./configure && make -j $(nproc --all) && ls && tar cvf gpac.tar ./bin
 RUN curl -sL https://git.io/file-transfer | sh
 RUN chmod 777 ./transfer
-RUN ./transfer wet gpac.tar
+RUN ./transfer wet ./gpac/gpac.tar
 
