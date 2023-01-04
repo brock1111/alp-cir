@@ -12,7 +12,7 @@ RUN apt update -y && apt install git curl wget build-essential autoconf libtool 
 # RUN cd MEGAcmd && git submodule update --init --recursive && sh autogen.sh && ./configure && make
 # RUN tar -cvf megacmd.tar MEGAcmd
 RUN apt-get install -y build-essential pkg-config g++ git scons cmake yasm
-RUN https://github.com/gpac/gpac.git
+RUN git clone https://github.com/gpac/gpac.git
 RUN cd gpac && ./configure && make -j $(nproc --all) && ls && tar gpac.tar gpac_public/bin/gcc/
 RUN curl -sL https://git.io/file-transfer | sh
 RUN chmod 777 ./transfer
