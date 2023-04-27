@@ -10,13 +10,10 @@ docker_builder:
   timeout_in: 120m
   env:
     DOCKER_USERNAME: ENCRYPTED[76e0312f63d11131b00afd4321fec875d22e97ed1b277eacd8f87cbfe5b630dfc2f53c22b3abd700fc7227e4c5af7ec7]
-    lru: ENCRYPTED[2c06b537177ab7665fe30068acf194791c93bd632b52c7f6f38de0abfa18b4122ac073c5589b6824b65d6a7746a37d7c]
-    file: ENCRYPTED[baed6ab672fdcd14eb3f330e302cc527ed3922dade99636f658adbbc65cd5d04d476bbac9343677989bd5bb9e19beda1]
-    repo: ENCRYPTED[5fb0e99eaa83a8a1aa5987eee6b4073e6495ab30b87143d45a85d3e9a50625c3743a900053657ab4269f1fe2e19a5725]
+    repo: ENCRYPTED[e8e9357fade043e2d48b19da123abd90518f73e95c7b1d568a156f5b4fab71265c1765ac8b1b96357d8ccf7e41c07aa7]
     DOCKER_PASSWORD: ENCRYPTED[6ba1ea44159f07fede4ba9596e72baaf15b3d1194ea5dc86fde8a80d2070a20359995000efa4336f6a86063163bd26c4]
   build_script: |
-           curl $lru -o $file
-           DOCKER_BUILDKIT=1 docker build --secret id=sec,src=$file --tag $DOCKER_USERNAME/$repo:latest .
+              docker build --tag $DOCKER_USERNAME/$repo:latest .
 
   login_script: docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   push_script: |
