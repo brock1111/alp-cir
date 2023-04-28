@@ -5,7 +5,7 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 RUN apt update -y && \
-    apt install -y tzdata && \
+    apt install -y tzdata jq && \
     ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
     dpkg-reconfigure --frontend noninteractive tzdata && \
     apt install -y aria2 p7zip-full git python3 python3-pip curl mediainfo ffmpeg wget mkvtoolnix && \                                                            
