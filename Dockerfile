@@ -13,4 +13,5 @@ RUN apt update -y && \
 RUN wget -q https://github.com/donwa/gclone/releases/download/v1.51.0-mod1.3.1/gclone_1.51.0-mod1.3.1_Linux_x86_64.gz && \
     7z x gclone_1.51.0-mod1.3.1_Linux_x86_64.gz > /dev/null && \
     chmod a+x ./gclone && \
-    mv ./gclone /usr/bin/
+    mv ./gclone /usr/bin/ && \
+    mv /usr/bin/mkvmerge /usr/bin/cmp
